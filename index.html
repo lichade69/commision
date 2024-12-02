@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Richard Yang">
+    <title>Commission</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="displayResultArea">
+    </div>
+    <script>
+        let sales = [];
+        let name = prompt('Please enter your name:');
+
+        while (true) {
+            let sale = prompt('Enter sale amount (or type "Done" to finish):');
+            if (sale === null) {
+                alert('Input cancelled.');
+                break;
+            }
+            if (sale.toLowerCase() === 'done') {
+                let rawSales = 0;
+                for (let sale of sales) {
+                    rawSales += sale;
+                }
+                let commissionRate = 0;
+                if (rawSales > 0 && rawSales <= 499.99) {
+                    commissionRate = 0.05;
+                }
+                else if (rawSales >= 500 && rawSales <= 999.99) {
+                    commissionRate = 0.10;
+                }
+                else if (rawSales >= 1000) {
+                    commissionRate = 0.15;
+                }
+                let totalCommission = rawSales * commissionRate;
+                let totalEarnings = rawSales + totalCommission;
+
+                let output = `
+<h1>Commission</h1>
+<hr>
+<h2>Hello ${name}, Here is your Weekly Commission Report.</h2>
+
+<p>Your sales total is <b>$${rawSales.toFixed(2)}</b>, so your commission rate is <b>${(commissionRate * 100).toFixed(2)}%</b>.</p>
+<p>Your total commission is <b>$${totalCommission.toFixed(2)}</b>.</p>
+<p>Your total earnings are <b>$${totalEarnings.toFixed(2)}</b>.</p>
+                `;
+                document.write(output);
+                break;
+            }
+            sale = parseFloat(sale);
+            if (isNaN(sale) || sale < 0) {
+                alert('Please enter a positive number.');
+                getSalesInput();
+                break;
+            }
+            sales.push(sale);
+        }
+    </script>
+</body>
+
+</html>
